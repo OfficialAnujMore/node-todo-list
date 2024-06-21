@@ -43,7 +43,7 @@ const getTodoById = asyncHandler(async (req, res) => {
       return res
         .status(201)
         .json(
-          new ApiResponseHandler(200, todo, "Successfully fetched the todo")
+          new ApiResponseHandler(200, todo, `Successfully fetched the todo`)
         );
     }
   } catch (error) {
@@ -85,7 +85,7 @@ const addTodo = asyncHandler(async (req, res) => {
 
     return res
       .status(200)
-      .json(new ApiResponseHandler(200, todo, "Successful"));
+      .json(new ApiResponseHandler(200, todo, `Successful`));
   } catch (error) {
     return res
       .status(404)
@@ -111,8 +111,9 @@ const updateTodoById = asyncHandler(async (req, res) => {
 
   return res
     .status(200)
-    .json(new ApiResponseHandler(200, todo, "Todo item updated successfully"));
+    .json(new ApiResponseHandler(200, todo, `Todo item updated successfully`));
 });
+
 const deleteTodoById = asyncHandler(async (req, res) => {
   const todoID = req.params.id;
   if (!isValidObjectId(todoID)) {
@@ -127,6 +128,6 @@ const deleteTodoById = asyncHandler(async (req, res) => {
 
   return res
     .status(200)
-    .json(new ApiResponseHandler(200, todo, "Todo item deleted successfully"));
+    .json(new ApiResponseHandler(200, todo, `Todo item deleted successfully`));
 });
 export { getTodos, getTodoById, addTodo, updateTodoById, deleteTodoById };
