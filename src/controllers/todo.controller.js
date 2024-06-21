@@ -105,13 +105,20 @@ const updateTodoById = asyncHandler(async (req, res) => {
   }
 
   const todo = await Todo.findByIdAndUpdate(todoID, req.body);
+
   if (todo === null) {
     return res.status(400).json(400, [], `Todo with ${todoID} not found`);
   }
-
+  const updatedTodoRecord = await Todo.findById(todoID);
   return res
     .status(200)
-    .json(new ApiResponseHandler(200, todo, `Todo item updated successfully`));
+    .json(
+      new ApiResponseHandler(
+        200,
+        updatedTodoRecord,
+        `Todo item updated successfully`
+      )
+    );
 });
 
 const deleteTodoById = asyncHandler(async (req, res) => {
@@ -123,11 +130,13 @@ const deleteTodoById = asyncHandler(async (req, res) => {
   }
   const todo = await Todo.findByIdAndDelete(todoID);
   if (todo === null) {
-    return res.status(400).json(400, [], `Todo with ${todoID} not found`);
+    return res
+      .status(400)
+      .json(new ApiErrorHandler(400, [], `Todo with ${todoID} not found`));
   }
 
   return res
     .status(200)
-    .json(new ApiResponseHandler(200, todo, `Todo item deleted successfully`));
+    .json(new ApiResponseHandler(200, [], `Todo item deleted successfully`));
 });
 export { getTodos, getTodoById, addTodo, updateTodoById, deleteTodoById };
