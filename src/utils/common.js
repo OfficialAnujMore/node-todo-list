@@ -18,3 +18,6 @@ export const generateRefreshToken = async (data) => {
 export const validateRefreshToken = async (refreshToken) => {
   return jwt.verify(refreshToken, process.env.REFRESH_TOKEN_PRIVATE_KEY);
 };
+export const validateAccessToken = async (accessToken) => {
+  return jwt.verify(accessToken, process.env.ACCESS_TOKEN_PRIVATE_KEY);
+};

@@ -5,7 +5,18 @@ import { asyncHandler } from "../utils/asyncHandler.js";
 import { isValidObjectId } from "../utils/common.js";
 
 const getTodos = asyncHandler(async (req, res) => {
-  const todos = await Todo.find();
+  const { name, status } = req.query;
+
+  let query = {};
+
+  if (name) {
+    query.name = { $regex: name, $options: "i" }; // Case-insensitive search by name
+  }
+  if (status) {
+    query.status = status;
+  }
+
+  const todos = await Todo.find(query);
   if (todos == null) {
     return res
       .status(404)
@@ -139,4 +150,5 @@ const deleteTodoById = asyncHandler(async (req, res) => {
     .status(200)
     .json(new ApiResponseHandler(200, [], `Todo item deleted successfully`));
 });
+
 export { getTodos, getTodoById, addTodo, updateTodoById, deleteTodoById };
